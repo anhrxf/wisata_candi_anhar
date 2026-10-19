@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // Ganti index (0, 1, 2) untuk menguji candi lain
-      home: DetailScreen(candi: candiList[0]),
+      home: DetailScreen(candi: candiList[6]),
     );
   }
 }

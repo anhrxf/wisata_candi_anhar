@@ -9,14 +9,12 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Solusi RenderFlex overflowed: layar bisa digulir
       body: SingleChildScrollView(
         child: Column(
           children: [
             // ================= DetailHeader =================
             Stack(
               children: [
-                // Anak pertama: gambar utama (paling bawah)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: ClipRRect(
@@ -29,7 +27,6 @@ class DetailScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Anak kedua: tombol back kustom (tampil di atas gambar)
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16, vertical: 32),
@@ -39,7 +36,7 @@ class DetailScreen extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(
-                      onPressed: () {}, // diisi di materi navigasi
+                      onPressed: () {},
                       icon: const Icon(Icons.arrow_back),
                     ),
                   ),
@@ -54,8 +51,6 @@ class DetailScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 16),
-
-                  // Info atas: nama + tombol favorit
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -65,13 +60,11 @@ class DetailScreen extends StatelessWidget {
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       IconButton(
-                        onPressed: () {}, // butuh state, materi berikutnya
+                        onPressed: () {},
                         icon: const Icon(Icons.favorite_border),
                       ),
                     ],
                   ),
-
-                  // Info tengah: lokasi, dibangun, tipe
                   const SizedBox(height: 16),
                   Row(
                     children: [
@@ -111,13 +104,9 @@ class DetailScreen extends StatelessWidget {
                       Expanded(child: Text(': ${candi.type}')),
                     ],
                   ),
-
-                  // Pemisah
                   const SizedBox(height: 16),
                   Divider(color: Colors.deepPurple.shade100),
                   const SizedBox(height: 16),
-
-                  // Info bawah: deskripsi
                   const Text(
                     'Deskripsi',
                     style: TextStyle(
@@ -142,17 +131,17 @@ class DetailScreen extends StatelessWidget {
                         fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
-                  // ListView horizontal wajib punya tinggi pasti
                   SizedBox(
                     height: 100,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: candi.imageUrls.length,
                       itemBuilder: (context, index) {
+                        final src = candi.imageUrls[index];
                         return Padding(
                           padding: const EdgeInsets.only(right: 8),
                           child: GestureDetector(
-                            onTap: () {}, // perbesar foto: materi navigasi
+                            onTap: () {},
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
@@ -163,19 +152,27 @@ class DetailScreen extends StatelessWidget {
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: CachedNetworkImage(
-                                  imageUrl: candi.imageUrls[index],
-                                  width: 96,
-                                  height: 96,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) => Container(
-                                    width: 96,
-                                    height: 96,
-                                    color: Colors.deepPurple[50],
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
-                                ),
+                                child: src.startsWith('http')
+                                    ? CachedNetworkImage(
+                                        imageUrl: src,
+                                        width: 96,
+                                        height: 96,
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            Container(
+                                          width: 96,
+                                          height: 96,
+                                          color: Colors.deepPurple[50],
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                      )
+                                    : Image.asset(
+                                        src,
+                                        width: 96,
+                                        height: 96,
+                                        fit: BoxFit.cover,
+                                      ),
                               ),
                             ),
                           ),
