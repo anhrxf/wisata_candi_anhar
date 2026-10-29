@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-=======
-// import 'package:wisata_candi_anhar/data/candi_data.dart';
-// import 'package:wisata_candi_anhar/screens/detail_screen.dart';
->>>>>>> 7717b33c1ef13eef2e3cb0ea834be06ccefef141
-import 'package:wisata_candi_anhar/screens/profile_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:wisata_candi_anhar/providers/auth_provider.dart';
+import 'package:wisata_candi_anhar/providers/favorite_provider.dart';
+import 'package:wisata_candi_anhar/screen/home_screen.dart';
+import 'package:wisata_candi_anhar/screen/favorite_screen.dart';
+import 'package:wisata_candi_anhar/screen/profile_screen.dart';
+import 'package:wisata_candi_anhar/screen/sign_in_screen.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => FavoriteProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -14,20 +26,63 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Wisata Candi',
+      title: 'Wisata Candi Anhar',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-<<<<<<< HEAD
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const ProfileScreen(),
-=======
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      // Ganti index (0, 1, 2) untuk menguji candi lain
-      // home: DetailScreen(candi: candiList[6]),
-      home: ProfileScreen(),
->>>>>>> 7717b33c1ef13eef2e3cb0ea834be06ccefef141
+      home: Consumer<AuthProvider>(
+        builder: (context, auth, child) {
+          return auth.isSignedIn ? const MainScreen() : const SignInScreen();
+        },
+      ),
+    );
+  }
+}
+
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _screens = [
+    const HomeScreen(),
+    const FavoriteScreen(),
+    const ProfileScreen(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _screens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorite',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+      ),
     );
   }
 }
