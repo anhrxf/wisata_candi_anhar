@@ -9,17 +9,13 @@ class FavoriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Candi Favorit'),
-      ),
+      appBar: AppBar(title: const Text('Candi Favorit')),
       body: Consumer<FavoriteProvider>(
         builder: (context, favProvider, child) {
           final favorites = favProvider.favoriteCandi;
 
           if (favorites.isEmpty) {
-            return const Center(
-              child: Text('Belum ada candi favorit'),
-            );
+            return const Center(child: Text('Belum ada candi favorit'));
           }
 
           return ListView.builder(
@@ -31,11 +27,14 @@ class FavoriteScreen extends StatelessWidget {
                 child: ListTile(
                   leading: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.asset(
-                      candi.imageAsset,
-                      width: 60,
-                      height: 60,
-                      fit: BoxFit.cover,
+                    child: Hero(
+                      tag: candi.imageAsset,
+                      child: Image.asset(
+                        candi.imageAsset,
+                        width: 60,
+                        height: 60,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   title: Text(candi.name),

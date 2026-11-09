@@ -1,108 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:wisata_candi_anhar/data/candi_data.dart';
 import 'package:wisata_candi_anhar/models/candi.dart';
-import 'package:wisata_candi_anhar/screens/detail_screen.dart';
+import 'package:wisata_candi_anhar/widgets/item_card.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Wisata Candi Anhar',
-          style: TextStyle(
-            color: Colors.deepPurple,
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // 2 Kolom
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: 0.8, // Rasio ukuran kartu
-          ),
-          itemCount: candiList.length,
-          itemBuilder: (context, index) {
-            final Candi candi = candiList[index];
-            return ItemCard(candi: candi);
-          },
-        ),
-      ),
-    );
-  }
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-// Widget Kartu Candi
-class ItemCard extends StatelessWidget {
-  final Candi candi;
-
-  const ItemCard({super.key, required this.candi});
-
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetailScreen(candi: candi),
-          ),
-        );
-      },
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+    return Scaffold(
+      // TODO: 1. Buat appBar dengan judul Wisata Candi
+      appBar: AppBar(
+        title: const Text('Wisata Candi'),
+      ),
+      // TODO: 2. Buat body dengan GridView.builder
+      body: GridView.builder(
+        padding: const EdgeInsets.all(8),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
         ),
-        elevation: 2,
-        clipBehavior: Clip.antiAlias,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Gambar Candi
-            Expanded(
-              child: Image.asset(
-                candi.imageAsset,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-            ),
-            // Nama dan Tipe Candi
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    candi.name,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    candi.type,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+        itemCount: candiList.length,
+        itemBuilder: (context, index) {
+          // TODO: 3. Buat ItemCard sebagai return value dari GridView.builder
+          Candi candi = candiList[index];
+          return ItemCard(candi: candi);
+        },
       ),
     );
   }

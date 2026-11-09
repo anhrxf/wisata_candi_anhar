@@ -32,8 +32,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      // Sesuai modul: Ubah home menjadi SearchScreen
-      home: const SearchScreen(),
+      // Sesuai modul: Ubah home menjadi HomeScreen
+      home: const HomeScreen(),
     );
   }
 }
@@ -68,22 +68,13 @@ class _MainScreenState extends State<MainScreen> {
           });
         },
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'Favorite',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
     );
