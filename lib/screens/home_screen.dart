@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wisata_candi_anhar/data/candi_data.dart';
 import 'package:wisata_candi_anhar/models/candi.dart';
-import 'package:wisata_candi_anhar/screen/detail_screen.dart';
+import 'package:wisata_candi_anhar/screens/detail_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

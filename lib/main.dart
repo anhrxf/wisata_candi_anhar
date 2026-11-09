@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wisata_candi_anhar/providers/auth_provider.dart';
 import 'package:wisata_candi_anhar/providers/favorite_provider.dart';
-import 'package:wisata_candi_anhar/screen/home_screen.dart';
-import 'package:wisata_candi_anhar/screen/favorite_screen.dart';
-import 'package:wisata_candi_anhar/screen/profile_screen.dart';
-import 'package:wisata_candi_anhar/screen/sign_in_screen.dart';
+import 'package:wisata_candi_anhar/screens/search_screen.dart';
+import 'package:wisata_candi_anhar/screens/home_screen.dart';
+import 'package:wisata_candi_anhar/screens/favorite_screen.dart';
+import 'package:wisata_candi_anhar/screens/profile_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,11 +32,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Consumer<AuthProvider>(
-        builder: (context, auth, child) {
-          return auth.isSignedIn ? const MainScreen() : const SignInScreen();
-        },
-      ),
+      // Sesuai modul: Ubah home menjadi SearchScreen
+      home: const SearchScreen(),
     );
   }
 }
@@ -53,6 +50,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
+    const SearchScreen(),
     const FavoriteScreen(),
     const ProfileScreen(),
   ];
@@ -62,6 +60,7 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
         onTap: (index) {
           setState(() {
@@ -72,6 +71,10 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),

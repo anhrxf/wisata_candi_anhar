@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wisata_candi_anhar/models/candi.dart';
+import 'package:wisata_candi_anhar/providers/favorite_provider.dart';
 
 class DetailScreen extends StatelessWidget {
   final Candi candi;
@@ -19,24 +21,31 @@ class DetailScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      candi.imageAsset,
-                      width: double.infinity,
-                      height: 300,
-                      fit: BoxFit.cover,
+                    child: Hero(
+                      tag: candi.imageAsset,
+                      child: Image.asset(
+                        candi.imageAsset,
+                        width: double.infinity,
+                        height: 300,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 32),
+                    horizontal: 16,
+                    vertical: 32,
+                  ),
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.deepPurple[100]?.withValues(alpha: 0.8),
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       icon: const Icon(Icons.arrow_back),
                     ),
                   ),
@@ -51,19 +60,31 @@ class DetailScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        candi.name,
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.favorite_border),
-                      ),
-                    ],
+                  Consumer<FavoriteProvider>(
+                    builder: (context, favProvider, child) {
+                      final isFav = favProvider.isFavorite(candi);
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            candi.name,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              isFav ? Icons.favorite : Icons.favorite_border,
+                              color: isFav ? Colors.red : null,
+                            ),
+                            onPressed: () {
+                              favProvider.toggleFavorite(candi);
+                            },
+                          ),
+                        ],
+                      );
+                    },
                   ),
                   const SizedBox(height: 16),
                   Row(
@@ -72,8 +93,10 @@ class DetailScreen extends StatelessWidget {
                       const SizedBox(width: 8),
                       const SizedBox(
                         width: 70,
-                        child: Text('Lokasi',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        child: Text(
+                          'Lokasi',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                       Expanded(child: Text(': ${candi.location}')),
                     ],
@@ -85,8 +108,10 @@ class DetailScreen extends StatelessWidget {
                       const SizedBox(width: 8),
                       const SizedBox(
                         width: 70,
-                        child: Text('Dibangun',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        child: Text(
+                          'Dibangun',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                       Expanded(child: Text(': ${candi.built}')),
                     ],
@@ -98,8 +123,10 @@ class DetailScreen extends StatelessWidget {
                       const SizedBox(width: 8),
                       const SizedBox(
                         width: 70,
-                        child: Text('Tipe',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        child: Text(
+                          'Tipe',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                       Expanded(child: Text(': ${candi.type}')),
                     ],
@@ -109,8 +136,7 @@ class DetailScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   const Text(
                     'Deskripsi',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   Text(candi.description),
@@ -127,8 +153,7 @@ class DetailScreen extends StatelessWidget {
                   Divider(color: Colors.deepPurple.shade100),
                   const Text(
                     'Galeri',
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
                   SizedBox(
@@ -160,10 +185,10 @@ class DetailScreen extends StatelessWidget {
                                         fit: BoxFit.cover,
                                         placeholder: (context, url) =>
                                             Container(
-                                          width: 96,
-                                          height: 96,
-                                          color: Colors.deepPurple[50],
-                                        ),
+                                              width: 96,
+                                              height: 96,
+                                              color: Colors.deepPurple[50],
+                                            ),
                                         errorWidget: (context, url, error) =>
                                             const Icon(Icons.error),
                                       )

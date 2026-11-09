@@ -48,9 +48,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign In'),
-      ),
+      appBar: AppBar(title: const Text('Sign In')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -58,8 +56,6 @@ class _SignInScreenState extends State<SignInScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 32),
-              // Kolom isian nama pengguna
               TextFormField(
                 controller: _usernameController,
                 decoration: const InputDecoration(
@@ -68,13 +64,12 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Nama pengguna tidak boleh kosong';
+                    return 'Silakan masukkan nama pengguna';
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 16),
-              // Kolom isian kata sandi
               TextFormField(
                 controller: _passwordController,
                 obscureText: _obscurePassword,
@@ -83,8 +78,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   border: const OutlineInputBorder(),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                      color: Colors.red,
+                      _obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
                     ),
                     onPressed: () {
                       setState(() {
@@ -95,43 +91,32 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Kata sandi tidak boleh kosong';
+                    return 'Silakan masukkan kata sandi';
                   }
                   return null;
                 },
               ),
               if (_errorText.isNotEmpty) ...[
-                const SizedBox(height: 8),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    _errorText,
-                    style: const TextStyle(color: Colors.red, fontSize: 12),
-                  ),
-                ),
+                const SizedBox(height: 12),
+                Text(_errorText, style: const TextStyle(color: Colors.red)),
               ],
               const SizedBox(height: 24),
-              // Tombol Sign In
-              ElevatedButton(
-                onPressed: _signIn,
-                child: const Text('Sign In'),
-              ),
+              ElevatedButton(onPressed: _signIn, child: const Text('Sign In')),
               const SizedBox(height: 16),
-              // Tautan ke halaman daftar
               RichText(
                 text: TextSpan(
                   text: 'Belum punya akun? ',
-                  style: const TextStyle(color: Colors.black54, fontSize: 14),
+                  style: const TextStyle(color: Colors.black87),
                   children: [
                     TextSpan(
-                      text: 'Daftar di sini',
+                      text: 'Daftar di sini.',
                       style: const TextStyle(
                         color: Colors.blue,
                         decoration: TextDecoration.underline,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          // Aksi navigasi ke SignUpScreen jika diperlukan
+                          // TODO: Navigasi ke halaman pendaftaran jika ada
                         },
                     ),
                   ],

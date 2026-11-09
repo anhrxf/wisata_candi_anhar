@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wisata_candi_anhar/providers/favorite_provider.dart';
-import 'package:wisata_candi_anhar/screen/detail_screen.dart';
+import 'package:wisata_candi_anhar/screens/detail_screen.dart';
 
 class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({super.key});
